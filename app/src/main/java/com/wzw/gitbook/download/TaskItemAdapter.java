@@ -15,6 +15,7 @@ import com.liulishuo.filedownloader.FileDownloader;
 import com.liulishuo.filedownloader.model.FileDownloadStatus;
 import com.liulishuo.filedownloader.util.FileDownloadUtils;
 import com.wzw.gitbook.R;
+import com.wzw.gitbook.epub.ReadEPubActivity;
 
 import java.io.File;
 
@@ -149,9 +150,12 @@ public class TaskItemAdapter extends RecyclerView.Adapter<TaskItemAdapter.TaskIt
                 task.start();
             } else if (action.equals(v.getResources().getString(R.string.delete))) {
                 // to delete
-                new File(TasksManager.getImpl().get(holder.position).getPath()).delete();
-                holder.taskActionBtn.setEnabled(true);
-                holder.updateNotDownloaded(FileDownloadStatus.INVALID_STATUS, 0, 0);
+
+//                String filePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "file.epub";
+                ReadEPubActivity.start(v.getContext(), TasksManager.getImpl().get(holder.position).getPath());
+//                new File(TasksManager.getImpl().get(holder.position).getPath()).delete();
+//                holder.taskActionBtn.setEnabled(true);
+//                holder.updateNotDownloaded(FileDownloadStatus.INVALID_STATUS, 0, 0);
             }
         }
     };

@@ -99,8 +99,14 @@ public class ReadEPubActivity extends BaseActivity implements ReaderCallback {
 
     @Override
     public void initDatas() {
-        mFilePath = Uri.decode(getIntent().getDataString().replace("file://", ""));
-        mFileName = mFilePath.substring(mFilePath.lastIndexOf("/") + 1, mFilePath.lastIndexOf("."));
+        // TODO: 2017/10/27 处理文件路径
+        try {
+            mFilePath = Uri.decode(getIntent().getDataString().replace("file://", ""));
+            mFileName = mFilePath.substring(mFilePath.lastIndexOf("/") + 1, mFilePath.lastIndexOf("."));
+        } catch (Exception e) {
+            mFilePath = getIntent().getDataString().replace("file://", "");
+            mFileName = "No Title";
+        }
     }
 
     @Override
