@@ -1,7 +1,5 @@
 package com.wzw.gitbook.download;
 
-// ============================================================================ controller ====
-
 import android.text.TextUtils;
 import android.util.SparseArray;
 
@@ -10,9 +8,6 @@ import com.liulishuo.filedownloader.FileDownloadConnectListener;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.liulishuo.filedownloader.model.FileDownloadStatus;
 import com.liulishuo.filedownloader.util.FileDownloadUtils;
-import com.wzw.gitbook.App;
-import com.wzw.gitbook.R;
-import com.wzw.gitbook.entity.Constant;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -33,18 +28,6 @@ public class TasksManager {
     private TasksManager() {
         dbController = new TasksManagerDBController();
         modelList = dbController.getAllTasks();
-
-        initDemo();
-    }
-
-    private void initDemo() {
-        if (modelList.size() <= 0) {
-            final int demoSize = Constant.BIG_FILE_URLS.length;
-            for (int i = 0; i < demoSize; i++) {
-                final String url = Constant.BIG_FILE_URLS[i];
-                addTask(url);
-            }
-        }
     }
 
     private SparseArray<BaseDownloadTask> taskSparseArray = new SparseArray<>();
@@ -164,10 +147,6 @@ public class TasksManager {
         return modelList.size();
     }
 
-    public TasksManagerModel addTask(final String url) {
-        return addTask(App.CONTEXT.getString(R.string.tasks_manager_demo_name, url.hashCode()), url, createPath(url));
-    }
-
     public TasksManagerModel addTask(String name, final String url) {
         return addTask(name, url, createPath(url));
     }
@@ -177,7 +156,7 @@ public class TasksManager {
             return null;
         }
 
-        final int id = FileDownloadUtils.generateId(url, path);
+        final int id = generateId(url, path);
         TasksManagerModel model = getById(id);
         if (model != null) {
             return model;
@@ -189,6 +168,10 @@ public class TasksManager {
         }
 
         return newModel;
+    }
+
+    public int generateId(String url, String path) {
+        return FileDownloadUtils.generateId(url, path);
     }
 
     public String createPath(final String url) {

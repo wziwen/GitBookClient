@@ -29,9 +29,6 @@ import com.wzw.gitbook.R;
 
 import java.lang.ref.WeakReference;
 
-/**
- * Created by Jacksgong on 1/9/16.
- */
 public class DownloadFragment extends Fragment {
 
     private TaskItemAdapter adapter;
@@ -49,9 +46,6 @@ public class DownloadFragment extends Fragment {
 
         TasksManager.getImpl().onCreate(new WeakReference<>(this));
         return view;
-
-//        String filePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "file.epub";
-//        ReadEPubActivity.start(this, filePath);
     }
 
     public void postNotifyDataChanged() {
@@ -71,13 +65,7 @@ public class DownloadFragment extends Fragment {
     public void onDestroy() {
         TasksManager.getImpl().onDestroy();
         adapter = null;
-//        FileDownloader.getImpl().pauseAll();
         super.onDestroy();
     }
-
-
-
-
-
 
 }

@@ -14,17 +14,22 @@
   ~ limitations under the License.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:gravity="center_vertical"
-              android:orientation="horizontal"
-              android:padding="15dp">
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginTop="8dp"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardCornerRadius="6dp"
+    app:contentPadding="14dp">
 
-    <LinearLayout
-        android:layout_width="0dp"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1.0"
         android:orientation="vertical">
 
         <TextView
@@ -32,37 +37,44 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="task: asdfslkdjflsjfo"
+            android:layout_toLeftOf="@+id/task_action_btn"
+            android:layout_alignParentLeft="true"
             android:textColor="@color/colorAccent"
-            android:textSize="16sp" />
+            android:ellipsize="end"
+            android:textSize="16sp"/>
 
         <TextView
             android:id="@+id/task_status_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/task_name_tv"
             android:layout_marginTop="1dp"
             android:text="status: connected"
+            android:layout_toLeftOf="@+id/task_action_btn"
+            android:layout_alignParentLeft="true"
             android:textColor="@android:color/secondary_text_dark"
-            android:textSize="16sp" />
+            android:textSize="16sp"/>
 
         <ProgressBar
             android:id="@+id/task_pb"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/task_status_tv"
             android:layout_marginTop="5dp"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"/>
 
 
-    </LinearLayout>
+        <Button
+            android:id="@+id/task_action_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="10dp"
+            android:text="Start"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"/>
+    </RelativeLayout>
 
-    <Button
-        android:id="@+id/task_action_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:text="Start"
-        android:textColor="@android:color/black"
-        android:textSize="14sp" />
 
-
-</LinearLayout>
+</android.support.v7.widget.CardView>

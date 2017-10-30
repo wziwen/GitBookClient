@@ -15,9 +15,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.wzw.gitbook.R;
 import com.wzw.gitbook.WebActivity;
-import com.wzw.gitbook.common.DownloadService;
 import com.wzw.gitbook.download.TasksManager;
+import com.wzw.gitbook.download.TasksManagerModel;
 import com.wzw.gitbook.entity.BookInfo;
+import com.wzw.gitbook.epub.ReadEPubActivity;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -37,10 +38,16 @@ public class BookViewBinder extends ItemViewBinder<BookInfo, BookViewBinder.Hold
         if (R.id.btn_download == view.getId()) {
             TasksManager.getImpl()
                     .addTask(bookInfo.getName(), bookInfo.getUrls().getDownload().getEpub());
+            view.setVisibility(View.GONE);
             return;
         }
         // // TODO: 2017/10/25 保存到浏览记录
-        showContent(view.getContext(), bookInfo.getUrls().getContent());
+        if (getDownloadStatus(bookInfo) == 1) {
+            TasksManagerModel model = TasksManager.getImpl().getById(bookInfo.getDownloadId());
+            ReadEPubActivity.start(view.getContext(), model.getPath());
+        } else {
+            showContent(view.getContext(), bookInfo.getUrls().getContent());
+        }
     }
 
     static class Holder extends RecyclerView.ViewHolder {
@@ -90,6 +97,14 @@ public class BookViewBinder extends ItemViewBinder<BookInfo, BookViewBinder.Hold
                 .apply(RequestOptions.circleCropTransform())
                 .into(holder.ivAvatar);
 
+        int downloadStatus = getDownloadStatus(bookInfo);
+        if (downloadStatus == 0) {
+            holder.btnDownload.setVisibility(View.VISIBLE);
+        } else {
+            holder.btnDownload.setVisibility(View.GONE);
+        }
+
+
         Date date = null;
         try {
             date = simpleDateFormat.parse(bookInfo.getDates().getBuild().replace("T", " ").replace("Z", ""));
@@ -100,6 +115,22 @@ public class BookViewBinder extends ItemViewBinder<BookInfo, BookViewBinder.Hold
             e.printStackTrace();
             holder.tvLastUpdateTime.setText("");
         }
+    }
+
+    private int getDownloadStatus(BookInfo bookInfo) {
+        int downloadId = bookInfo.getDownloadId();
+        if (downloadId == -1) {
+            String url = bookInfo.getUrls().getDownload().getEpub();
+            downloadId = TasksManager.getImpl().generateId(url, TasksManager.getImpl().createPath(url));
+            bookInfo.setDownloadId(downloadId);
+        }
+        // has not download
+        TasksManagerModel model = TasksManager.getImpl().getById(downloadId);
+        if (model != null ) {
+            int status = TasksManager.getImpl().getStatus(model.getId(), model.getPath());
+            return TasksManager.getImpl().isDownloaded(status) ? 1 : 2;
+        }
+        return 0;
     }
 
     private void showContent(Context activity, String url) {

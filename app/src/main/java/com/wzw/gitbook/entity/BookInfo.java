@@ -30,6 +30,7 @@ public class BookInfo {
      */
 
     private String id;
+    private int downloadId = -1;
     private String status;
     private String name;
     private String title;
@@ -55,6 +56,14 @@ public class BookInfo {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public int getDownloadId() {
+        return downloadId;
+    }
+
+    public void setDownloadId(int downloadId) {
+        this.downloadId = downloadId;
     }
 
     public String getStatus() {
