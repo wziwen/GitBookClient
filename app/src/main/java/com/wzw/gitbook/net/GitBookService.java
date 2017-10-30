@@ -16,7 +16,7 @@ import retrofit2.http.Url;
 public interface GitBookService {
 
     @GET("search")
-    Observable<SearchResult> search(@Query("q") String keyword);
+    Observable<SearchResult> search(@Query("q") String keyword, @Query("page") int page);
 
     /**
      *

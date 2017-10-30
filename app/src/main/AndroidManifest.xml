@@ -25,6 +25,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".WebActivity"/>
+        <activity android:name=".base.SingleFragmentActivity"/>
         <activity android:name=".epub.ReadEPubActivity" android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
