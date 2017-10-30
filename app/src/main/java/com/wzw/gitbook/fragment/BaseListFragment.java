@@ -26,6 +26,8 @@ public abstract class BaseListFragment extends Fragment implements SwipeRefreshL
         swipeRefreshLayout = view.findViewById(R.id.refresh_layout);
         recyclerView = view.findViewById(R.id.recycler_view);
         initView(view);
+
+        loadData();
         return view;
     }
 

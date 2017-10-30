@@ -24,4 +24,7 @@
     <string name="tasks_manager_demo_status_paused">Status: paused</string>
     <string name="tasks_manager_demo_status_completed">Status: completed</string>
     <string name="tasks_manager_demo_status_not_downloaded">Status: has not downloaded</string>
+    <string name="explore">Explore</string>
+    <string name="download">Download</string>
+    <string name="setting">Setting</string>
 </resources>
