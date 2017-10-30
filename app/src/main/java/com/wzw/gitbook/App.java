@@ -1,6 +1,7 @@
 package com.wzw.gitbook;
 
 import android.app.Application;
+import android.preference.PreferenceManager;
 
 import com.liulishuo.filedownloader.FileDownloader;
 
@@ -16,5 +17,6 @@ public class App extends Application{
         super.onCreate();
         CONTEXT = this;
         FileDownloader.setupOnApplicationOnCreate(this);
+        PreferenceManager.setDefaultValues(this, R.xml.setting_pref, false);
     }
 }

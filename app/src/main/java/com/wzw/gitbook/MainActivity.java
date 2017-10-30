@@ -16,12 +16,15 @@ import com.wzw.gitbook.base.SingleFragmentActivity;
 import com.wzw.gitbook.download.DownloadFragment;
 import com.wzw.gitbook.fragment.ExploreFragment;
 import com.wzw.gitbook.fragment.SearchFragment;
+import com.wzw.gitbook.fragment.SettingFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     ExploreFragment exploreFragment = new ExploreFragment();
     DownloadFragment downloadFragment = new DownloadFragment();
+    SettingFragment settingFragment = new SettingFragment();
+
     Fragment currentFragment;
     private SearchView searchView;
 
@@ -44,6 +47,8 @@ public class MainActivity extends AppCompatActivity
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fl_container, downloadFragment)
                 .hide(downloadFragment)
+                .add(R.id.fl_container, settingFragment)
+                .hide(settingFragment)
                 .add(R.id.fl_container, exploreFragment)
                 .commit();
         currentFragment = exploreFragment;
@@ -116,7 +121,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_download) {
             showFragment(downloadFragment);
         } else if (id == R.id.nav_setting) {
-
+            showFragment((settingFragment));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="General"
+        android:key="pref_key_storage_settings">
+        <SwitchPreference
+            android:key="pref_key_cache_request_result"
+            android:title="Cache Request Result"
+            android:defaultValue="true"/>
+        <SwitchPreference
+            android:key="pref_key_download_only_on_wifi"
+            android:title="Download Only On WIFI"
+            android:defaultValue="true"/>
+        <Preference
+            android:key="pref_key_clear_cache"
+            android:title="Clear Cache"
+            />
+        <!--<Preference-->
+            <!--android:key="pref_key_sms_delete_limit"-->
+            <!--android:dependency="pref_key_auto_delete"-->
+            <!--android:summary="Show Download page on app launch if has download files"-->
+            <!--android:title="Download page first"/>-->
+        <!--<Preference-->
+            <!--android:key="pref_key_mms_delete_limit"-->
+            <!--android:defaultValue="10"-->
+            <!--android:summary="string/pref_summary_delete_limit"-->
+            <!--android:title="AA" />-->
+    </PreferenceCategory>
+</PreferenceScreen>
