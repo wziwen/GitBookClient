@@ -14,6 +14,7 @@ import android.view.MenuItem;
 
 import com.wzw.gitbook.base.SingleFragmentActivity;
 import com.wzw.gitbook.download.DownloadFragment;
+import com.wzw.gitbook.entity.Lang;
 import com.wzw.gitbook.fragment.ExploreFragment;
 import com.wzw.gitbook.fragment.SearchFragment;
 import com.wzw.gitbook.fragment.SettingFragment;
@@ -98,9 +99,31 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_lang_all) {
+            exploreFragment.setLanguage(Lang.ALL);
             return true;
         }
+        if (id == R.id.action_lang_chinese) {
+            exploreFragment.setLanguage(Lang.CHINESE);
+            return true;
+        }
+        if (id == R.id.action_lang_english) {
+            exploreFragment.setLanguage(Lang.ENGLISH);
+            return true;
+        }
+        if (id == R.id.action_lang_french) {
+            exploreFragment.setLanguage(Lang.FRENCH);
+            return true;
+        }
+        if (id == R.id.action_lang_spanish) {
+            exploreFragment.setLanguage(Lang.SPANISH);
+            return true;
+        }
+        if (id == R.id.action_lang_arabic) {
+            exploreFragment.setLanguage(Lang.ARABIC);
+            return true;
+        }
+
         if (id == R.id.action_search) {
 
 

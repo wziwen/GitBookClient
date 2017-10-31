@@ -148,15 +148,15 @@ public class TaskItemAdapter extends RecyclerView.Adapter<TaskItemAdapter.TaskIt
                         .updateViewHolder(holder.id, holder);
 
                 task.start();
-            } else if (action.equals(v.getResources().getString(R.string.delete))) {
-                // to delete
+            } else if (action.equals(v.getResources().getString(R.string.Read))) {
+                ReadEPubActivity.start(v.getContext(), TasksManager.getImpl().get(holder.position).getPath());
+            }
+            // to delete
 
 //                String filePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "file.epub";
-                ReadEPubActivity.start(v.getContext(), TasksManager.getImpl().get(holder.position).getPath());
 //                new File(TasksManager.getImpl().get(holder.position).getPath()).delete();
 //                holder.taskActionBtn.setEnabled(true);
 //                holder.updateNotDownloaded(FileDownloadStatus.INVALID_STATUS, 0, 0);
-            }
         }
     };
 
@@ -250,7 +250,7 @@ public class TaskItemAdapter extends RecyclerView.Adapter<TaskItemAdapter.TaskIt
             taskPb.setProgress(1);
 
             taskStatusTv.setText(R.string.tasks_manager_demo_status_completed);
-            taskActionBtn.setText(R.string.delete);
+            taskActionBtn.setText(R.string.Read);
         }
 
         public void updateNotDownloaded(final int status, final long sofar, final long total) {

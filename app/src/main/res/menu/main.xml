@@ -9,8 +9,33 @@
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="always"/>
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_lang_all"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="All"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_lang_chinese"
+        android:orderInCategory="100"
+        android:title="Chinese"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_lang_english"
+        android:orderInCategory="100"
+        android:title="English"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_lang_french"
+        android:orderInCategory="100"
+        android:title="French"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_lang_spanish"
+        android:orderInCategory="100"
+        android:title="Spanish"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_lang_arabic"
+        android:orderInCategory="100"
+        android:title="Arabic"
         app:showAsAction="never"/>
 </menu>

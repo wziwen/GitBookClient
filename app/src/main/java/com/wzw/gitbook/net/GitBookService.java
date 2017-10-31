@@ -35,6 +35,4 @@ public interface GitBookService {
     @GET
     @Streaming
     Observable<ResponseBody> downloadFile(@Url String url);
-
-
 }

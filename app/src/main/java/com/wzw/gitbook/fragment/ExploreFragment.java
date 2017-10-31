@@ -30,6 +30,7 @@ public class ExploreFragment extends BaseListFragment {
     private Items items;
     private int currentPage;
     private boolean loadingData = false;
+    private String language;
 
     @Override
     protected void initView(View view) {
@@ -61,7 +62,7 @@ public class ExploreFragment extends BaseListFragment {
             return;
         }
         loadingData = true;
-        gitBookService.explore("zh", page).subscribeOn(Schedulers.io())
+        gitBookService.explore(language, page).subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ExploreResult>() {
@@ -98,4 +99,8 @@ public class ExploreFragment extends BaseListFragment {
     }
 
 
+    public void setLanguage(String language) {
+        this.language = language;
+        loadData();
+    }
 }

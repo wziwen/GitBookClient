@@ -122,6 +122,9 @@ public class ReadEPubActivity extends BaseActivity implements ReaderCallback {
 
             @Override
             protected void onPostExecute(Void aVoid) {
+                if (viewpager == null) {
+                    return;
+                }
                 initPager();
 
                 initTocList();
@@ -131,7 +134,6 @@ public class ReadEPubActivity extends BaseActivity implements ReaderCallback {
     }
 
     private void loadBook() {
-
         try {
             // 打开书籍
             EpubReader reader = new EpubReader();

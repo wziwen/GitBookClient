@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.liulishuo.filedownloader.FileDownloader;
 import com.wzw.gitbook.R;
 import com.wzw.gitbook.WebActivity;
 import com.wzw.gitbook.download.TasksManager;
@@ -36,8 +38,13 @@ public class BookViewBinder extends ItemViewBinder<BookInfo, BookViewBinder.Hold
     public void onClick(View view) {
         BookInfo bookInfo = (BookInfo) view.getTag();
         if (R.id.btn_download == view.getId()) {
-            TasksManager.getImpl()
-                    .addTask(bookInfo.getName(), bookInfo.getUrls().getDownload().getEpub());
+            TasksManagerModel model = TasksManager.getImpl()
+                    .addTask(bookInfo.getTitle(), bookInfo.getUrls().getDownload().getEpub());
+            FileDownloader.getImpl().create(model.getUrl())
+                    .setPath(model.getPath())
+                    .setCallbackProgressTimes(100)
+                    .start();
+
             view.setVisibility(View.GONE);
             return;
         }
@@ -59,6 +66,7 @@ public class BookViewBinder extends ItemViewBinder<BookInfo, BookViewBinder.Hold
         TextView tvLastUpdateTime;
         ImageView ivAvatar;
         Button btnDownload;
+        TextView tvDownloadStatus;
 
         Holder(@NonNull View itemView) {
             super(itemView);
@@ -69,6 +77,7 @@ public class BookViewBinder extends ItemViewBinder<BookInfo, BookViewBinder.Hold
             tvLastUpdateTime = itemView.findViewById(R.id.tv_last_update_time);
             ivAvatar = itemView.findViewById(R.id.iv_avatar);
             btnDownload = itemView.findViewById(R.id.btn_download);
+            tvDownloadStatus = itemView.findViewById(R.id.tv_download_status);
         }
     }
 
@@ -85,7 +94,12 @@ public class BookViewBinder extends ItemViewBinder<BookInfo, BookViewBinder.Hold
     @Override
     protected void onBindViewHolder(@NonNull Holder holder, @NonNull BookInfo bookInfo) {
         holder.tvTitle.setText(bookInfo.getTitle());
-        holder.tvDesc.setText(bookInfo.getDescription());
+        if (TextUtils.isEmpty(bookInfo.getDescription())) {
+            holder.tvDesc.setVisibility(View.GONE);
+        } else {
+            holder.tvDesc.setVisibility(View.VISIBLE);
+            holder.tvDesc.setText(bookInfo.getDescription());
+        }
         holder.tvAuthor.setText(bookInfo.getAuthor().getName());
         holder.tvStars.setText(String.format("%d Star", bookInfo.getCounts().getStars()));
 
@@ -100,8 +114,13 @@ public class BookViewBinder extends ItemViewBinder<BookInfo, BookViewBinder.Hold
         int downloadStatus = getDownloadStatus(bookInfo);
         if (downloadStatus == 0) {
             holder.btnDownload.setVisibility(View.VISIBLE);
+            holder.tvDownloadStatus.setVisibility(View.GONE);
         } else {
             holder.btnDownload.setVisibility(View.GONE);
+            holder.tvDownloadStatus.setVisibility(View.VISIBLE);
+            holder.tvDownloadStatus.setText(
+                    downloadStatus == 1 ? "downloaded" : "downloading"
+            );
         }
 
 
