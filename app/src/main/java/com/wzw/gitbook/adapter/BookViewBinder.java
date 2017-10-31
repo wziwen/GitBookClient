@@ -106,10 +106,19 @@ public class BookViewBinder extends ItemViewBinder<BookInfo, BookViewBinder.Hold
         holder.itemView.setTag(bookInfo);
         holder.btnDownload.setTag(bookInfo);
 
-        Glide.with(holder.itemView.getContext())
-                .load(bookInfo.getAuthor().getUrls().getAvatar())
-                .apply(RequestOptions.circleCropTransform())
-                .into(holder.ivAvatar);
+        String avatar = bookInfo.getAuthor().getUrls().getAvatar();
+        // https://s.gravatar.com 图片下的头像都显示不出来, 这里直接不请求了
+        if (avatar != null && avatar.startsWith("https://s.gravatar.com")) {
+            Glide.with(holder.itemView.getContext())
+                    .load(R.drawable.baby_cats)
+                    .into(holder.ivAvatar);
+        } else {
+            Glide.with(holder.itemView.getContext())
+                    .load(bookInfo.getAuthor().getUrls().getAvatar())
+                    .apply(RequestOptions.errorOf(R.drawable.baby_cats))
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(holder.ivAvatar);
+        }
 
         int downloadStatus = getDownloadStatus(bookInfo);
         if (downloadStatus == 0) {
