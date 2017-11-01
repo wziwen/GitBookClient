@@ -111,31 +111,6 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     public abstract void configViews();
 
-    protected void gone(final View... views) {
-        if (views != null && views.length > 0) {
-            for (View view : views) {
-                if (view != null) {
-                    view.setVisibility(View.GONE);
-                }
-            }
-        }
-    }
-
-    protected void visible(final View... views) {
-        if (views != null && views.length > 0) {
-            for (View view : views) {
-                if (view != null) {
-                    view.setVisibility(View.VISIBLE);
-                }
-            }
-        }
-
-    }
-
-    protected boolean isVisible(View view) {
-        return view.getVisibility() == View.VISIBLE;
-    }
-
     public void hideDialog() {
     }
 

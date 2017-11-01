@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.liulishuo.filedownloader.FileDownloader;
+import com.wzw.epub.EpubReaderActivity;
 import com.wzw.gitbook.R;
 import com.wzw.gitbook.WebActivity;
 import com.wzw.gitbook.download.TasksManager;
@@ -51,7 +52,7 @@ public class BookViewBinder extends ItemViewBinder<BookInfo, BookViewBinder.Hold
         // // TODO: 2017/10/25 保存到浏览记录
         if (getDownloadStatus(bookInfo) == 1) {
             TasksManagerModel model = TasksManager.getImpl().getById(bookInfo.getDownloadId());
-            ReadEPubActivity.start(view.getContext(), model.getPath());
+            EpubReaderActivity.start(view.getContext(), model.getPath(), model.getName());
         } else {
             showContent(view.getContext(), bookInfo.getUrls().getContent());
         }

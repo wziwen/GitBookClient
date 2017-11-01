@@ -26,7 +26,14 @@
         </activity>
         <activity android:name=".WebActivity"/>
         <activity android:name=".base.SingleFragmentActivity"/>
-        <activity android:name=".epub.ReadEPubActivity" android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".epub.ReadEPubActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name="com.wzw.epub.EpubReaderActivity"
+            android:label="@string/title_activity_epub_reader"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
