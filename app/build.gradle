@@ -40,6 +40,9 @@ dependencies {
     compile 'com.liulishuo.filedownloader:library:1.6.8'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.android.support:preference-v14:26.0.0-alpha1'
+    // this way you only enable BlockCanary in debug package
+     debugCompile 'com.github.markzhai:blockcanary-android:1.5.0'
+     releaseCompile 'com.github.markzhai:blockcanary-no-op:1.5.0'
     //    annotationProcessor 'com.github.bumptech.glide:compiler:4.2.0'
     testCompile 'junit:junit:4.12'
     compile files('libs/epublib-core-latest.jar')

@@ -9,6 +9,7 @@ import com.wzw.gitbook.adapter.BookViewBinder;
 import com.wzw.gitbook.common.OnLoadMoreListener;
 import com.wzw.gitbook.entity.BookInfo;
 import com.wzw.gitbook.entity.ExploreResult;
+import com.wzw.gitbook.entity.Lang;
 import com.wzw.gitbook.entity.SearchResult;
 import com.wzw.gitbook.net.GitBookService;
 import com.wzw.gitbook.net.NetProvider;
@@ -30,7 +31,7 @@ public class ExploreFragment extends BaseListFragment {
     private Items items;
     private int currentPage;
     private boolean loadingData = false;
-    private String language;
+    private String language = Lang.CHINESE;
 
     @Override
     protected void initView(View view) {

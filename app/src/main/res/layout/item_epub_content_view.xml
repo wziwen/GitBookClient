@@ -1,10 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WebView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/wv_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp"
-    android:clickable="true">
+    android:clickable="true"
+    android:background="@color/white"
+    tools:ignore="WebViewLayout">
 
-</WebView>
+    <WebView
+        android:id="@+id/wv_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:clickable="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="24dp"/>
+
+    <TextView
+        android:id="@+id/tv_page"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:textSize="12sp"
+        android:padding="2dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <View
+        android:layout_alignParentBottom="true"
+        android:background="#e4e4e4"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"/>
+</RelativeLayout>

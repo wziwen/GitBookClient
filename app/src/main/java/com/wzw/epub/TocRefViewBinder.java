@@ -17,8 +17,23 @@ import nl.siegmann.epublib.domain.TOCReference;
  */
 public class TocRefViewBinder extends ItemViewBinder<TOCReference, TocRefViewBinder.Holder> implements View.OnClickListener {
 
+    OnClick onClick;
+    int currentPosition = 0;
+
+
+    public TocRefViewBinder(OnClick onClick) {
+        this.onClick = onClick;
+    }
+
     @Override
     public void onClick(View view) {
+        onClick.onItemClick((int) view.getTag());
+    }
+
+    public void updateCurrentPosition(int currentPosition) {
+        getAdapter().notifyItemChanged(currentPosition);
+        this.currentPosition = currentPosition;
+        getAdapter().notifyItemChanged(currentPosition);
     }
 
     static class Holder extends RecyclerView.ViewHolder {
@@ -40,8 +55,12 @@ public class TocRefViewBinder extends ItemViewBinder<TOCReference, TocRefViewBin
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull Holder holder, @NonNull TOCReference bookInfo) {
-        holder.tvTitle.setText(bookInfo.getTitle());
+    protected void onBindViewHolder(@NonNull Holder holder, @NonNull TOCReference tocReference) {
+        holder.tvTitle.setText(tocReference.getTitle());
+        holder.itemView.setTag(getPosition(holder));
     }
 
+    public interface OnClick {
+        void onItemClick(int position);
+    }
 }

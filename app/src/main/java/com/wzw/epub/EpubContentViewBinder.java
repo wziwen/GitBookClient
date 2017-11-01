@@ -34,10 +34,12 @@ public class EpubContentViewBinder extends ItemViewBinder<TOCReference, EpubCont
     static class Holder extends RecyclerView.ViewHolder {
 
         WebView webView;
+        TextView tvPage;
 
         Holder(@NonNull View itemView) {
             super(itemView);
             webView = itemView.findViewById(R.id.wv_content);
+            tvPage = itemView.findViewById(R.id.tv_page);
         }
     }
 
@@ -46,6 +48,7 @@ public class EpubContentViewBinder extends ItemViewBinder<TOCReference, EpubCont
         View root = inflater.inflate(R.layout.item_epub_content_view, parent, false);
         Holder holder = new Holder(root);
         root.setOnClickListener(this);
+        root.setMinimumHeight(parent.getHeight());
         return holder;
     }
 
@@ -54,6 +57,8 @@ public class EpubContentViewBinder extends ItemViewBinder<TOCReference, EpubCont
         String pageHref = tocReference.getResource().getHref();
 
         holder.webView.loadUrl("file://" + unzipDir + File.separator + pageHref);
+
+        holder.tvPage.setText(String.format("%d/%d", getPosition(holder) + 1, getAdapter().getItemCount()));
     }
 
 }

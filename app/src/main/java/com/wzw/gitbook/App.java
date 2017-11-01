@@ -3,6 +3,8 @@ package com.wzw.gitbook;
 import android.app.Application;
 import android.preference.PreferenceManager;
 
+import com.github.moduth.blockcanary.BlockCanary;
+import com.github.moduth.blockcanary.BlockCanaryContext;
 import com.liulishuo.filedownloader.FileDownloader;
 
 /**
@@ -18,5 +20,6 @@ public class App extends Application{
         CONTEXT = this;
         FileDownloader.setupOnApplicationOnCreate(this);
         PreferenceManager.setDefaultValues(this, R.xml.setting_pref, false);
+        BlockCanary.install(this, new BlockCanaryContext()).start();
     }
 }
