@@ -1,10 +1,12 @@
 package com.wzw.epub;
 
-import android.app.ProgressDialog;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,6 +18,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.animation.LinearInterpolator;
 import android.widget.ProgressBar;
 
 import com.wzw.gitbook.R;
@@ -67,16 +71,25 @@ public class EpubReaderActivity extends AppCompatActivity
     private ProgressBar progressBar;
     private TocRefViewBinder tocRefViewBinder;
     private DrawerLayout drawer;
+    private Toolbar toolbar;
+    private AppBarLayout appBarLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+
+
         setContentView(R.layout.activity_epub_reader);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        appBarLayout = (AppBarLayout) findViewById(R.id.abl_epub);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
@@ -100,6 +113,13 @@ public class EpubReaderActivity extends AppCompatActivity
                 closeDrawer();
             }
         });
+        findViewById(R.id.btn_show)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        toggleToolBarVisible();
+                    }
+                });
         chapterAdapter.register(TOCReference.class, tocRefViewBinder);
         rvChapter.setAdapter(chapterAdapter);
 
@@ -113,6 +133,13 @@ public class EpubReaderActivity extends AppCompatActivity
         rvContent.setAdapter(contentAdapter);
 
         loadBook(unzipDir);
+
+        getWindow().getDecorView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggleToolBarVisible();
+            }
+        });
     }
 
     @Override
@@ -193,13 +220,13 @@ public class EpubReaderActivity extends AppCompatActivity
                         hideLoading();
                     }
                 }).doOnNext(new Consumer<List<TOCReference>>() {
-                    @Override
-                    public void accept(List<TOCReference> list) throws Exception {
-                        chapterAdapter.setItems(list);
-                        chapterAdapter.notifyDataSetChanged();
-                        contentAdapter.setItems(list);
-                        contentAdapter.notifyDataSetChanged();
-                    }
+            @Override
+            public void accept(List<TOCReference> list) throws Exception {
+                chapterAdapter.setItems(list);
+                chapterAdapter.notifyDataSetChanged();
+                contentAdapter.setItems(list);
+                contentAdapter.notifyDataSetChanged();
+            }
         }).subscribe();
     }
 
@@ -240,5 +267,72 @@ public class EpubReaderActivity extends AppCompatActivity
         super.onConfigurationChanged(newConfig);
         // re-layout root view
         getWindow().getDecorView().requestLayout();
+    }
+
+    boolean mIsActionBarVisible = true;
+
+    public void toggleToolBarVisible() {
+        if (mIsActionBarVisible) {
+            toolbarAnimateHide();
+        } else {
+            toolbarAnimateShow();
+        }
+    }
+
+    private void toolbarAnimateHide() {
+        if (mIsActionBarVisible) {
+            appBarLayout.animate()
+                    .translationY(-appBarLayout.getHeight())
+                    .setInterpolator(new LinearInterpolator())
+                    .setDuration(180)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            hideStatusBar();
+                        }
+                    });
+            mIsActionBarVisible = false;
+        }
+    }
+
+    private void toolbarAnimateShow() {
+        if (!mIsActionBarVisible) {
+            appBarLayout.animate()
+                    .translationY(0)
+                    .setInterpolator(new LinearInterpolator())
+                    .setDuration(180)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            showStatusBar();
+                        }
+                    });
+            mIsActionBarVisible = true;
+        }
+    }
+
+    protected void hideStatusBar() {
+//        WindowManager.LayoutParams attrs = getWindow().getAttributes();
+//        attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN ;
+//        getWindow().setAttributes(attrs);
+
+
+//        getWindow().setStatusBarColor(Color.TRANSPARENT);
+
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View. SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+        decorView.setSystemUiVisibility(uiOptions);
+        getSupportActionBar().hide();
+    }
+
+    protected void showStatusBar() {
+//        WindowManager.LayoutParams attrs = getWindow().getAttributes();
+//        attrs.flags &= ~WindowManager.LayoutParams.FLAG_FULLSCREEN;
+//        getWindow().setAttributes(attrs);
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View. SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+        decorView.setSystemUiVisibility(uiOptions);
+        getSupportActionBar().show();
     }
 }

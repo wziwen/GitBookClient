@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:gravity="bottom"
     android:orientation="vertical"
+    android:paddingTop="24dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <android.support.v7.widget.RecyclerView
