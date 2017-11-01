@@ -32,7 +32,4 @@ public interface GitBookService {
     @GET("explore")
     Observable<ExploreResult> explore(@Query("lang") String lang, @Query("page") int page);
 
-    @GET
-    @Streaming
-    Observable<ResponseBody> downloadFile(@Url String url);
 }

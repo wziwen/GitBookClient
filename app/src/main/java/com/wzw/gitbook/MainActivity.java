@@ -1,5 +1,6 @@
 package com.wzw.gitbook;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -163,5 +164,12 @@ public class MainActivity extends AppCompatActivity
                 .show(fragment)
                 .commit();
         currentFragment = fragment;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // re-layout root view
+        getWindow().getDecorView().requestLayout();
     }
 }
