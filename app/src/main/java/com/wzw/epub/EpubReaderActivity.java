@@ -134,7 +134,17 @@ public class EpubReaderActivity extends AppCompatActivity
 
         loadBook(unzipDir);
 
-        getWindow().getDecorView().setOnClickListener(new View.OnClickListener() {
+        getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+            @Override
+            public void onSystemUiVisibilityChange(int visibility) {
+                if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0) {
+                    showAppBar();
+                } else {
+                    hideAppBar();
+                }
+            }
+        });
+        rvContent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 toggleToolBarVisible();
@@ -281,44 +291,44 @@ public class EpubReaderActivity extends AppCompatActivity
 
     private void toolbarAnimateHide() {
         if (mIsActionBarVisible) {
-            appBarLayout.animate()
-                    .translationY(-appBarLayout.getHeight())
-                    .setInterpolator(new LinearInterpolator())
-                    .setDuration(180)
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
                             hideStatusBar();
-                        }
-                    });
             mIsActionBarVisible = false;
         }
     }
 
+    private void hideAppBar() {
+        appBarLayout.animate()
+                .translationY(-appBarLayout.getHeight())
+                .setInterpolator(new LinearInterpolator())
+                .setDuration(180)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                    }
+                });
+    }
+
     private void toolbarAnimateShow() {
         if (!mIsActionBarVisible) {
-            appBarLayout.animate()
-                    .translationY(0)
-                    .setInterpolator(new LinearInterpolator())
-                    .setDuration(180)
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            showStatusBar();
-                        }
-                    });
+            showStatusBar();
             mIsActionBarVisible = true;
         }
     }
 
+    private void showAppBar() {
+        appBarLayout.animate()
+                .translationY(0)
+                .setInterpolator(new LinearInterpolator())
+                .setDuration(180)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+//                            showStatusBar();
+                    }
+                });
+    }
+
     protected void hideStatusBar() {
-//        WindowManager.LayoutParams attrs = getWindow().getAttributes();
-//        attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN ;
-//        getWindow().setAttributes(attrs);
-
-
-//        getWindow().setStatusBarColor(Color.TRANSPARENT);
-
         View decorView = getWindow().getDecorView();
         int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 | View. SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
@@ -327,9 +337,6 @@ public class EpubReaderActivity extends AppCompatActivity
     }
 
     protected void showStatusBar() {
-//        WindowManager.LayoutParams attrs = getWindow().getAttributes();
-//        attrs.flags &= ~WindowManager.LayoutParams.FLAG_FULLSCREEN;
-//        getWindow().setAttributes(attrs);
         View decorView = getWindow().getDecorView();
         int uiOptions = View. SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
         decorView.setSystemUiVisibility(uiOptions);
