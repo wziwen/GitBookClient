@@ -47,8 +47,7 @@ import nl.siegmann.epublib.domain.SpineReference;
 import nl.siegmann.epublib.domain.TOCReference;
 import nl.siegmann.epublib.epub.EpubReader;
 
-public class EpubReaderActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class EpubReaderActivity extends AppCompatActivity {
 
     public static void start(Context context, String filePath, String fileName) {
         Intent intent = new Intent(context, EpubReaderActivity.class);
@@ -65,7 +64,7 @@ public class EpubReaderActivity extends AppCompatActivity
 
     private RecyclerView rvChapter;
     private MultiTypeAdapter chapterAdapter;
-    private RecyclerView rvContent;
+    private MotionRecyclerView rvContent;
     private MultiTypeAdapter contentAdapter;
 
     private ProgressBar progressBar;
@@ -94,9 +93,6 @@ public class EpubReaderActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
         Bundle bundle = getIntent().getExtras();
         mFilePath = bundle.getString("file_path");
         mFileName = bundle.getString("file_name");
@@ -113,23 +109,32 @@ public class EpubReaderActivity extends AppCompatActivity
                 closeDrawer();
             }
         });
-        findViewById(R.id.btn_show)
-                .setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        toggleToolBarVisible();
-                    }
-                });
         chapterAdapter.register(TOCReference.class, tocRefViewBinder);
         rvChapter.setAdapter(chapterAdapter);
 
         String unzipDir = Constant.PATH_EPUB + "/" + FileUtils.md5(mFilePath);
 
-        rvContent = (RecyclerView) findViewById(R.id.rv_content);
+        rvContent = (MotionRecyclerView) findViewById(R.id.rv_content);
         rvContent.setLayoutManager(new LinearLayoutManager(this));
         contentAdapter = new MultiTypeAdapter();
 //        contentAdapter.register(TOCReference.class, new TocRefViewBinder());
         contentAdapter.register(TOCReference.class, new EpubContentViewBinder(unzipDir));
+        rvContent.setEventListener( new MotionRecyclerView.EventListener() {
+            @Override
+            public void onClick() {
+                toggleToolBarVisible();
+            }
+
+            @Override
+            public void onPullDown() {
+                showStatusBar();
+            }
+
+            @Override
+            public void onPullUp() {
+                hideStatusBar();
+            }
+        });
         rvContent.setAdapter(contentAdapter);
 
         loadBook(unzipDir);
@@ -142,12 +147,6 @@ public class EpubReaderActivity extends AppCompatActivity
                 } else {
                     hideAppBar();
                 }
-            }
-        });
-        rvContent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toggleToolBarVisible();
             }
         });
     }
@@ -182,17 +181,6 @@ public class EpubReaderActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 
     private void loadBook(final String unzipDir) {
@@ -331,15 +319,21 @@ public class EpubReaderActivity extends AppCompatActivity
     protected void hideStatusBar() {
         View decorView = getWindow().getDecorView();
         int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                | View. SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+                | View. SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;// | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
         decorView.setSystemUiVisibility(uiOptions);
-        getSupportActionBar().hide();
+//        getSupportActionBar().hide();
     }
 
     protected void showStatusBar() {
         View decorView = getWindow().getDecorView();
-        int uiOptions = View. SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+        int uiOptions = View. SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;// | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
         decorView.setSystemUiVisibility(uiOptions);
-        getSupportActionBar().show();
+//        getSupportActionBar().show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        hideStatusBar();
     }
 }

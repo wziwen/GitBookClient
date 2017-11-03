@@ -12,9 +12,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <android.support.design.widget.NavigationView
+
+    <LinearLayout
         android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
+        android:layout_width="280dp"
+        android:background="#f5f5f5"
         android:layout_height="match_parent"
         android:layout_gravity="start">
 
@@ -22,6 +24,6 @@
             android:id="@+id/rv_chapter"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-    </android.support.design.widget.NavigationView>
+    </LinearLayout>
 
 </android.support.v4.widget.DrawerLayout>
