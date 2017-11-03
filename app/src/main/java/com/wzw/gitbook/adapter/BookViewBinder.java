@@ -21,7 +21,6 @@ import com.wzw.gitbook.WebActivity;
 import com.wzw.gitbook.download.TasksManager;
 import com.wzw.gitbook.download.TasksManagerModel;
 import com.wzw.gitbook.entity.BookInfo;
-import com.wzw.gitbook.epub.ReadEPubActivity;
 
 import java.text.DateFormat;
 import java.text.ParseException;

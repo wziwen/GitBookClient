@@ -14,8 +14,8 @@ import com.liulishuo.filedownloader.FileDownloadSampleListener;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.liulishuo.filedownloader.model.FileDownloadStatus;
 import com.liulishuo.filedownloader.util.FileDownloadUtils;
+import com.wzw.epub.EpubReaderActivity;
 import com.wzw.gitbook.R;
-import com.wzw.gitbook.epub.ReadEPubActivity;
 
 import java.io.File;
 
@@ -149,7 +149,8 @@ public class TaskItemAdapter extends RecyclerView.Adapter<TaskItemAdapter.TaskIt
 
                 task.start();
             } else if (action.equals(v.getResources().getString(R.string.Read))) {
-                ReadEPubActivity.start(v.getContext(), TasksManager.getImpl().get(holder.position).getPath());
+                TasksManagerModel model = TasksManager.getImpl().get(holder.position);
+                EpubReaderActivity.start(v.getContext(), model.getPath(), model.getName());
             }
             // to delete
 
