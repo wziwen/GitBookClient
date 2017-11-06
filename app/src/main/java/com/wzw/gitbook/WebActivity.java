@@ -1,15 +1,14 @@
 package com.wzw.gitbook;
 
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
@@ -31,8 +30,6 @@ public class WebActivity extends AppCompatActivity {
 
     protected AgentWeb mAgentWeb;
     private LinearLayout mLinearLayout;
-    private AlertDialog mAlertDialog;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,17 +38,11 @@ public class WebActivity extends AppCompatActivity {
         setContentView(R.layout.activity_web);
 
         mLinearLayout = (LinearLayout) this.findViewById(R.id.container);
-        if (getSupportActionBar() != null)
+        if (getSupportActionBar() != null) {
             // Enable the Up button
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_black_24dp);
-//        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                showDialog();
-//            }
-//        });
+        }
 
 
         long p = System.currentTimeMillis();
@@ -109,32 +100,6 @@ public class WebActivity extends AppCompatActivity {
         }
     };
 
-
-    private void showDialog() {
-        if (mAlertDialog == null)
-            mAlertDialog = new AlertDialog.Builder(this)
-                    .setMessage("您确定要关闭该页面吗?")
-                    .setNegativeButton("再逛逛", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (mAlertDialog != null)
-                                mAlertDialog.dismiss();
-                        }
-                    })//
-                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                            if (mAlertDialog != null)
-                                mAlertDialog.dismiss();
-
-                            WebActivity.this.finish();
-                        }
-                    }).create();
-        mAlertDialog.show();
-
-    }
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (mAgentWeb.handleKeyEvent(keyCode, event)) {
@@ -168,5 +133,15 @@ public class WebActivity extends AppCompatActivity {
         super.onDestroy();
         //mAgentWeb.destroy();
         mAgentWeb.getWebLifeCycle().onDestroy();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
