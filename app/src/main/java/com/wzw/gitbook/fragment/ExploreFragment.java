@@ -1,18 +1,16 @@
 package com.wzw.gitbook.fragment;
 
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewTreeObserver;
 
 import com.wzw.gitbook.R;
 import com.wzw.gitbook.adapter.BookViewBinder;
+import com.wzw.gitbook.common.AutoSpanLayoutManager;
 import com.wzw.gitbook.common.OnLoadMoreListener;
 import com.wzw.gitbook.entity.BookInfo;
 import com.wzw.gitbook.entity.ExploreResult;
 import com.wzw.gitbook.entity.Lang;
-import com.wzw.gitbook.entity.SearchResult;
 import com.wzw.gitbook.net.GitBookService;
 import com.wzw.gitbook.net.NetProvider;
 
@@ -42,22 +40,9 @@ public class ExploreFragment extends BaseListFragment {
     protected void initView(View view) {
         super.initView(view);
         recyclerView = view.findViewById(R.id.recycler_view);
-        gridLayoutManager = new GridLayoutManager(getContext(), 1);
+        gridLayoutManager = new AutoSpanLayoutManager(getContext(), recyclerView);
         recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.getViewTreeObserver().addOnGlobalLayoutListener(
-                new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        int viewWidth = recyclerView.getMeasuredWidth();
-                        float cardViewWidth = dpToPx(250);
-                        int newSpanCount = (int) Math.floor(viewWidth / cardViewWidth);
-                        int spanCount = gridLayoutManager.getSpanCount();
-                        if (spanCount != newSpanCount) {
-                            gridLayoutManager.setSpanCount(newSpanCount);
-                            gridLayoutManager.requestLayout();
-                        }
-                    }
-                });
+
 
         adapter = new MultiTypeAdapter();
         adapter.register(BookInfo.class, new BookViewBinder());
@@ -71,9 +56,6 @@ public class ExploreFragment extends BaseListFragment {
                 loadExploreByPage(currentPage + 1);
             }
         });
-    }
-    private float dpToPx(float dp) {
-        return dp * getContext().getResources().getDisplayMetrics().density;
     }
 
     @Override

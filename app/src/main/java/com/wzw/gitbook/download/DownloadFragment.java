@@ -19,13 +19,13 @@ package com.wzw.gitbook.download;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.wzw.gitbook.R;
+import com.wzw.gitbook.common.AutoSpanLayoutManager;
 
 import java.lang.ref.WeakReference;
 
@@ -40,7 +40,7 @@ public class DownloadFragment extends Fragment {
 
         final RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new AutoSpanLayoutManager(getContext(), recyclerView));
         recyclerView.setAdapter(adapter = new TaskItemAdapter());
 
 

@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.wzw.gitbook.R;
 import com.wzw.gitbook.adapter.BookViewBinder;
+import com.wzw.gitbook.common.AutoSpanLayoutManager;
 import com.wzw.gitbook.common.OnLoadMoreListener;
 import com.wzw.gitbook.entity.BookInfo;
 import com.wzw.gitbook.entity.ExploreResult;
@@ -45,7 +46,7 @@ public class SearchFragment extends BaseListFragment {
     protected void initView(View view) {
         super.initView(view);
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new AutoSpanLayoutManager(getContext(), recyclerView));
 
         adapter = new MultiTypeAdapter();
         adapter.register(BookInfo.class, new BookViewBinder());
