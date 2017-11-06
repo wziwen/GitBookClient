@@ -186,6 +186,10 @@ public class EpubReaderActivity extends AppCompatActivity {
             @Override
             public void subscribe(@NonNull ObservableEmitter<List<TOCReference>> observable) throws Exception {
                 try {
+                    // 解压epub至缓存目录
+                    if (!new File(unzipDir).exists()) {
+                        FileUtils.unzipFile(mFilePath, unzipDir);
+                    }
                     // 打开书籍
                     EpubReader reader = new EpubReader();
                     InputStream is = new FileInputStream(mFilePath);
@@ -196,11 +200,6 @@ public class EpubReaderActivity extends AppCompatActivity {
 
                     List<TOCReference> list = flatTocRef();
                     observable.onNext(list);
-
-                    // 解压epub至缓存目录
-                    if (!new File(unzipDir).exists()) {
-                        FileUtils.unzipFile(mFilePath, unzipDir);
-                    }
                 } catch (IOException e) {
                     e.printStackTrace();
 //                    observable.onError(e);
