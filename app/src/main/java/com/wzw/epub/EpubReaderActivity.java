@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -23,8 +22,6 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ProgressBar;
 
 import com.wzw.gitbook.R;
-import com.wzw.gitbook.epub.Constant;
-import com.wzw.gitbook.epub.FileUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
