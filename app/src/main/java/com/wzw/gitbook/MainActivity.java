@@ -1,8 +1,12 @@
 package com.wzw.gitbook;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -12,6 +16,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.wzw.gitbook.base.SingleFragmentActivity;
 import com.wzw.gitbook.download.DownloadFragment;
@@ -144,8 +149,19 @@ public class MainActivity extends AppCompatActivity
             showFragment(exploreFragment);
         } else if (id == R.id.nav_download) {
             showFragment(downloadFragment);
-        } else if (id == R.id.nav_setting) {
-            showFragment((settingFragment));
+        } else if (id == R.id.nav_feedback) {
+            try {
+                Intent data = new Intent(Intent.ACTION_SENDTO);
+                data.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.my_email_address)});
+                data.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.feedback_title));
+                data.putExtra(Intent.EXTRA_TEXT, getString(R.string.feedback_content));
+                startActivity(data);
+                startActivity(Intent.createChooser(data, getString(R.string.feedback_choose)));
+            } catch (ActivityNotFoundException e) {
+                View view = findViewById(R.id.toolbar);
+                Snackbar.make(view, R.string.not_email_client, Snackbar.LENGTH_LONG).show();
+            }
+//            showFragment((settingFragment));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

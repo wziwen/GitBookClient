@@ -28,4 +28,9 @@
     <string name="download">Download</string>
     <string name="setting">Setting</string>
     <string name="title_activity_epub_reader">EpubReaderActivity</string>
+    <string name="my_email_address">wziwen@foxmail.com</string>
+    <string name="feedback_title">Feedback of GBReader</string>
+    <string name="feedback_content">Hi:\n</string>
+    <string name="feedback_choose">Choose an Email Client</string>
+    <string name="not_email_client">Not Email Client Found</string>
 </resources>
