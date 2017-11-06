@@ -1,8 +1,10 @@
 package com.wzw.gitbook.fragment;
 
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewTreeObserver;
 
 import com.wzw.gitbook.R;
 import com.wzw.gitbook.adapter.BookViewBinder;
@@ -33,11 +35,29 @@ public class ExploreFragment extends BaseListFragment {
     private boolean loadingData = false;
     private String language = Lang.CHINESE;
 
+    RecyclerView recyclerView;
+    GridLayoutManager gridLayoutManager;
+
     @Override
     protected void initView(View view) {
         super.initView(view);
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView = view.findViewById(R.id.recycler_view);
+        gridLayoutManager = new GridLayoutManager(getContext(), 1);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.getViewTreeObserver().addOnGlobalLayoutListener(
+                new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        int viewWidth = recyclerView.getMeasuredWidth();
+                        float cardViewWidth = dpToPx(250);
+                        int newSpanCount = (int) Math.floor(viewWidth / cardViewWidth);
+                        int spanCount = gridLayoutManager.getSpanCount();
+                        if (spanCount != newSpanCount) {
+                            gridLayoutManager.setSpanCount(newSpanCount);
+                            gridLayoutManager.requestLayout();
+                        }
+                    }
+                });
 
         adapter = new MultiTypeAdapter();
         adapter.register(BookInfo.class, new BookViewBinder());
@@ -51,6 +71,9 @@ public class ExploreFragment extends BaseListFragment {
                 loadExploreByPage(currentPage + 1);
             }
         });
+    }
+    private float dpToPx(float dp) {
+        return dp * getContext().getResources().getDisplayMetrics().density;
     }
 
     @Override
