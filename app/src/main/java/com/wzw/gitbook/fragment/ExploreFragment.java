@@ -1,5 +1,8 @@
 package com.wzw.gitbook.fragment;
 
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -11,8 +14,12 @@ import com.wzw.gitbook.common.OnLoadMoreListener;
 import com.wzw.gitbook.entity.BookInfo;
 import com.wzw.gitbook.entity.ExploreResult;
 import com.wzw.gitbook.entity.Lang;
+import com.wzw.gitbook.entity.WrapData;
 import com.wzw.gitbook.net.GitBookService;
 import com.wzw.gitbook.net.NetProvider;
+import com.wzw.gitbook.vm.ExploreViewModel;
+
+import java.util.List;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -53,14 +60,28 @@ public class ExploreFragment extends BaseListFragment {
         recyclerView.addOnScrollListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                loadExploreByPage(currentPage + 1);
+//                loadExploreByPage(currentPage + 1);
             }
         });
+        ViewModelProviders.of(this)
+                .get(ExploreViewModel.class)
+                .getBookList()
+                .observe(this, new android.arch.lifecycle.Observer<WrapData<List<BookInfo>>>() {
+                    @Override
+                    public void onChanged(@Nullable WrapData<List<BookInfo>> listWrapData) {
+                        swipeRefreshLayout.setRefreshing(false);
+                        if (listWrapData.data != null) {
+                            items.clear();
+                            items.addAll(listWrapData.data);
+                        }
+                        adapter.notifyDataSetChanged();
+                    }
+                });
     }
 
     @Override
     protected void loadData() {
-        loadExploreByPage(0);
+//        loadExploreByPage(0);
     }
 
     private void loadExploreByPage(final int page) {
@@ -68,7 +89,8 @@ public class ExploreFragment extends BaseListFragment {
             return;
         }
         loadingData = true;
-        gitBookService.explore(language, page).subscribeOn(Schedulers.io())
+        gitBookService.explore(language, page)
+                .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ExploreResult>() {

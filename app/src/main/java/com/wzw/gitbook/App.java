@@ -2,6 +2,7 @@ package com.wzw.gitbook;
 
 import android.app.Application;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatDelegate;
 
 import com.github.moduth.blockcanary.BlockCanary;
 import com.github.moduth.blockcanary.BlockCanaryContext;
@@ -21,5 +22,7 @@ public class App extends Application{
         FileDownloader.setupOnApplicationOnCreate(this);
         PreferenceManager.setDefaultValues(this, R.xml.setting_pref, false);
         BlockCanary.install(this, new BlockCanaryContext()).start();
+
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
     }
 }

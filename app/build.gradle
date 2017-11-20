@@ -10,6 +10,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        javaCompileOptions.annotationProcessorOptions.includeCompileClasspath = true
     }
     buildTypes {
         release {
@@ -24,10 +25,12 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
-    compile 'com.android.support:cardview-v7:26.0.0-alpha1'
-    compile 'com.android.support:cardview-v7:26.0.0-alpha1'
-    compile 'com.android.support:design:26.0.0-alpha1'
+    def SUPPORT_LIB = '26.1.0'
+    compile "com.android.support:appcompat-v7:$SUPPORT_LIB"
+    compile "com.android.support:cardview-v7:$SUPPORT_LIB"
+    compile "com.android.support:cardview-v7:$SUPPORT_LIB"
+    compile "com.android.support:design:$SUPPORT_LIB"
+    compile "com.android.support:preference-v14:$SUPPORT_LIB"
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
@@ -38,8 +41,10 @@ dependencies {
     compile 'com.android.support:support-annotations:26.0.2'
     compile 'com.just.agentweb:agentweb:2.0.1'
     compile 'com.liulishuo.filedownloader:library:1.6.8'
-    compile 'com.jakewharton:butterknife:7.0.1'
-    compile 'com.android.support:preference-v14:26.0.0-alpha1'
+    implementation 'com.jakewharton:butterknife:7.0.1'
+//    annotationProcessor 'com.jakewharton:butterknife-compiler:7.0.1'
+    implementation "android.arch.lifecycle:extensions:1.0.0"
+    implementation "android.arch.lifecycle:runtime:1.0.3"
     // this way you only enable BlockCanary in debug package
      debugCompile 'com.github.markzhai:blockcanary-android:1.5.0'
      releaseCompile 'com.github.markzhai:blockcanary-no-op:1.5.0'
