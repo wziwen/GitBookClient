@@ -10,7 +10,6 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -22,6 +21,7 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ProgressBar;
 
 import com.wzw.gitbook.R;
+import com.wzw.gitbook.base.BaseActivity;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -44,7 +44,7 @@ import nl.siegmann.epublib.domain.SpineReference;
 import nl.siegmann.epublib.domain.TOCReference;
 import nl.siegmann.epublib.epub.EpubReader;
 
-public class EpubReaderActivity extends AppCompatActivity {
+public class EpubReaderActivity extends BaseActivity {
 
     public static void start(Context context, String filePath, String fileName) {
         Intent intent = new Intent(context, EpubReaderActivity.class);

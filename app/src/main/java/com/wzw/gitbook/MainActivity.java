@@ -11,13 +11,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.wzw.gitbook.base.BaseActivity;
 import com.wzw.gitbook.base.SingleFragmentActivity;
 import com.wzw.gitbook.download.DownloadFragment;
 import com.wzw.gitbook.entity.Lang;
@@ -25,7 +25,7 @@ import com.wzw.gitbook.fragment.ExploreFragment;
 import com.wzw.gitbook.fragment.SearchFragment;
 import com.wzw.gitbook.fragment.SettingFragment;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     ExploreFragment exploreFragment = new ExploreFragment();
