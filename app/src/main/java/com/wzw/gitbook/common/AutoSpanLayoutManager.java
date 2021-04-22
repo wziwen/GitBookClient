@@ -9,6 +9,7 @@ import android.view.ViewTreeObserver;
  * Created by ziwen.wen on 2017/11/6.
  */
 public class AutoSpanLayoutManager extends GridLayoutManager {
+
     Context context;
     public AutoSpanLayoutManager(Context context, final RecyclerView recyclerView) {
         super(context, 1);

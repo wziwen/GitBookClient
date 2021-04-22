@@ -1,12 +1,14 @@
 apply plugin: 'com.android.application'
 
+def androidConfig = rootProject.ext.android
+def libVersion = rootProject.ext.libVersion
 android {
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    compileSdkVersion androidConfig.compileSdkVersion
+    buildToolsVersion androidConfig.buildToolsVersion
     defaultConfig {
         applicationId "com.wzw.gitbook"
-        minSdkVersion 19
-        targetSdkVersion 26
+        minSdkVersion androidConfig.minSdkVersion
+        targetSdkVersion androidConfig.targetSdkVersion
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -25,10 +27,11 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
-    compile 'com.android.support:cardview-v7:26.0.0-alpha1'
-    compile 'com.android.support:cardview-v7:26.0.0-alpha1'
-    compile 'com.android.support:design:26.0.0-alpha1'
+    compile "com.android.support:appcompat-v7:$libVersion.androidSupport"
+    compile "com.android.support:cardview-v7:$libVersion.androidSupport"
+    compile "com.android.support:cardview-v7:$libVersion.androidSupport"
+    compile "com.android.support:design:$libVersion.androidSupport"
+    compile "com.android.support:preference-v14:$libVersion.androidSupport"
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
@@ -40,7 +43,6 @@ dependencies {
     compile 'com.just.agentweb:agentweb:2.0.1'
     compile 'com.liulishuo.filedownloader:library:1.6.8'
     compile 'com.jakewharton:butterknife:7.0.1'
-    compile 'com.android.support:preference-v14:26.0.0-alpha1'
     // this way you only enable BlockCanary in debug package
      debugCompile 'com.github.markzhai:blockcanary-android:1.5.0'
      releaseCompile 'com.github.markzhai:blockcanary-no-op:1.5.0'
@@ -48,4 +50,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile files('libs/epublib-core-latest.jar')
     compile files('libs/slf4j-android-1.5.8.jar')
+    compile project(":base")
 }
